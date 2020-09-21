@@ -5,13 +5,8 @@ import axios from 'axios';
 
 async function GetWeatherInfo() {
     const APIKey = "f221911ecaf99e13c117da4eb5794fb6"
-    try {
-        const {data} = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=${APIKey}`)
-        console.log(data)
-        return data
-    } catch (e) {
-        console.log(e)
-    }
+    const {data} = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=${APIKey}`)
+    return data
 }
 
 async function Create(data: object, at: moment.Moment) {

@@ -9,12 +9,8 @@ async function BulkInsert(data: any[], at: moment.Moment) {
 }
 
 async function GetFromIndego() {
-    try {
-        const {data} = await axios.get("https://kiosks.bicycletransit.workers.dev/phl")
-        return data.features
-    } catch (e) {
-        console.log(e)
-    }
+    const {data} = await axios.get("https://kiosks.bicycletransit.workers.dev/phl")
+    return data.features
 }
 
 async function Get(query: {at: Date, kioskId?: string}) {

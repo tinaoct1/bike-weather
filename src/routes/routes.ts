@@ -1,57 +1,73 @@
 import StationController from '../controllers/station';
 import WeatherController from '../controllers/weather';
 import moment from 'moment';
-import { Router } from 'express';
+import {Router} from 'express';
 import {swaggerDocument} from "../../swagger";
 const swaggerUi = require('swagger-ui-express');
 const router: Router = Router();
 import {authorize} from "../utilities/authz";
 
-
-
 router.post('/indego-data-fetch-and-store-it-db', authorize, async (req, res) => {
-    const startOfHourDate = moment().startOf('hour')
+    try {
+        const startOfHourDate = moment().startOf('hour')
 
-    console.log("Fetching Stations From Indego")
-    const [stations, weather] = await Promise.all([StationController.GetFromIndego(),
-        WeatherController.GetWeatherInfo()])
+        const [stations, weather] = await Promise.all([StationController.GetFromIndego(),
+            WeatherController.GetWeatherInfo()])
 
-    console.log("Inserting Into DB")
+        await Promise.all([StationController.BulkInsert(stations, startOfHourDate), WeatherController.Create(weather, startOfHourDate)])
 
-    await Promise.all([StationController.BulkInsert(stations, startOfHourDate), WeatherController.Create(weather, startOfHourDate)])
-
-    return res.send('ok');
+        return res.send('ok');
+    } catch (e: any) {
+        return res.status(500).send("Something went wrong")
+    }
 });
 
 router.get('/stations', authorize, async (req, res) => {
-    const at = new Date(`${(req.query as any).at}.000Z`)
-    console.log(`Fetching stations and weather at ${at}`)
-    const [stations, weather] = await Promise.all([StationController.Get({at}), WeatherController.Get(at)])
-    if (!stations || !weather) {
-        res.send(404)
-    }
+    try {
+        if (!(req.query as any).at) {
+            return res.status(400).send("query param 'at' needs to be passed")
+        }
 
-    res.send({at, stations, weather})
+        const at = new Date(`${(req.query as any).at}.000Z`)
+
+        const [stations, weather] = await Promise.all([StationController.Get({at}), WeatherController.Get(at)])
+        if (!stations || !weather || !stations.length || !weather.length) {
+            return res.status(404).send("Snapshot not found for requested time")
+        }
+
+        res.send({at, stations, weather: weather[0]})
+    } catch (e: any) {
+        return res.status(500).send("Something went wrong")
+    }
 });
 
 router.get('/stations/:kioskId', authorize, async (req, res) => {
-    const at = new Date(`${(req.query as any).at}.000Z`)
+    try {
+        if (!(req.query as any).at) {
+            return res.status(400).send("query param 'at' needs to be passed")
+        }
 
-    const kioskId = req.params.kioskId
-    console.log(`Fetching station: ${kioskId} and weather at ${at}`)
-    const [station, weather] = await Promise.all([StationController.Get({at, kioskId}), WeatherController.Get(at)])
-    if (!station || !weather) {
-        res.send(404)
+        const at = new Date(`${(req.query as any).at}.000Z`)
+
+        const kioskId = req.params.kioskId
+
+        const [station, weather] = await Promise.all([StationController.Get({at, kioskId}), WeatherController.Get(at)])
+
+        if (!station || !weather || !station.length || !weather.length) {
+            return res.status(404).send("Snapshot not found for requested time and kiosk")
+        }
+
+        res.send({at, station: station[0], weather: weather[0]})
+    } catch (e: any) {
+        return res.status(500).send("Something went wrong")
     }
-
-    res.send({at, station, weather})
 })
 
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 router.get('*', (req, res) => {
-    res.send({message: "Not Found"}).status(404);
+    res.status(404).send("Not Found!")
 });
 
 export const MainRouter: Router = router;
