@@ -5,7 +5,6 @@ dotenv.config({path: ".env"});
 
 export const ENVIRONMENT    = process.env.APP_ENV|| "dev";
 export const IS_PRODUCTION  = ENVIRONMENT === "production";
-export const APP_PORT       = parseInt(process.env.APP_PORT) || 3000;
 export const LOG_DIRECTORY  = process.env.LOG_DIRECTORY || path.resolve('logs');
 export const DB             = {
     // const db = 'mongodb+srv://admin:C5bRGWNMy9yz89Rx@cluster0.u4wgj.gcp.mongodb.net/indego?retryWrites=true&w=majority';
