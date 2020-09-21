@@ -8,6 +8,7 @@ import cors from 'cors';
 import './db';// initialize database
 
 const app: Application = express();
+
 app.use(cors())
 app.use(bodyParser.json());
 
