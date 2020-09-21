@@ -4,12 +4,8 @@ import { Application } from 'express';
 import * as bodyParser from 'body-parser';
 import { MainRouter } from './routes/routes';
 import { loadErrorHandlers } from './utilities/error-handling';
-// import session from 'express-session';
-// import helmet from "helmet";
-import './db'; // initialize database
 
-
-
+import './db';// initialize database
 
 const app: Application = express();
 // connect({db});
@@ -17,7 +13,6 @@ const app: Application = express();
 app.use(bodyParser.json());
 
 app.use('/api/v1/', MainRouter);
-
 loadErrorHandlers(app);
 
 export default app;
