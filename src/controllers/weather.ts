@@ -1,11 +1,12 @@
 import Weather from '../models/weather'
 import axios from 'axios';
-// import * as moment from "moment";
+import {OPEN_WEATHER_MAP_APIKEY } from "../utilities/secrets";
+
 
 
 async function GetWeatherInfo() {
-    const APIKey = "f221911ecaf99e13c117da4eb5794fb6"
-    const {data} = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=${APIKey}`)
+    const APIKey = ""
+    const {data} = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia&appid=${OPEN_WEATHER_MAP_APIKEY}`)
     return data
 }
 
