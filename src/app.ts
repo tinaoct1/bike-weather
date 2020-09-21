@@ -7,8 +7,7 @@ import { loadErrorHandlers } from './utilities/error-handling';
 import './db';// initialize database
 
 const app: Application = express();
-// connect({db});
-// app.use(helmet());
+
 app.use(bodyParser.json());
 
 app.use('/api/v1/', MainRouter);

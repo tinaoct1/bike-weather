@@ -5,9 +5,11 @@ import { Router } from 'express';
 import {swaggerDocument} from "../../swagger";
 const swaggerUi = require('swagger-ui-express');
 const router: Router = Router();
+import {authorize} from "../utilities/authz";
 
 
-router.post('/indego-data-fetch-and-store-it-db', async (req, res) => {
+
+router.post('/indego-data-fetch-and-store-it-db', authorize, async (req, res) => {
     const startOfHourDate = moment().startOf('hour')
 
     console.log("Fetching Stations From Indego")
@@ -21,7 +23,7 @@ router.post('/indego-data-fetch-and-store-it-db', async (req, res) => {
     return res.send('ok');
 });
 
-router.get('/stations', async (req, res) => {
+router.get('/stations', authorize, async (req, res) => {
     const at = new Date(`${(req.query as any).at}.000Z`)
     console.log(`Fetching stations and weather at ${at}`)
     const [stations, weather] = await Promise.all([StationController.Get({at}), WeatherController.Get(at)])
@@ -32,7 +34,7 @@ router.get('/stations', async (req, res) => {
     res.send({at, stations, weather})
 });
 
-router.get('/stations/:kioskId', async (req, res) => {
+router.get('/stations/:kioskId', authorize, async (req, res) => {
     const at = new Date(`${(req.query as any).at}.000Z`)
 
     const kioskId = req.params.kioskId
@@ -48,5 +50,8 @@ router.get('/stations/:kioskId', async (req, res) => {
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
+router.get('*', (req, res) => {
+    res.send({message: "Not Found"}).status(404);
+});
 
 export const MainRouter: Router = router;

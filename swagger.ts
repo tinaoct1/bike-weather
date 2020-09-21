@@ -30,6 +30,12 @@ export const swaggerDocument = {
                         "description": "The time for which the historical data has to be obtained in UTC format eg:2020-09-21T07:00:00",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "api-token",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -67,6 +73,12 @@ export const swaggerDocument = {
                         "description": "The time for which the historical data has to be obtained in UTC format eg:2020-09-21T07:00:00",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "api-token",
+                        "in": "header",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -89,6 +101,12 @@ export const swaggerDocument = {
                 "produces": [
                     "application/json"
                 ],
+                "parameters": {
+                    "name": "api-token",
+                    "in": "header",
+                    "required": true,
+                    "type": "string"
+                },
                 "responses": {
                     "default": {
                         "description": "successful operation"
