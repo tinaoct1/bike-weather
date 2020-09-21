@@ -1,24 +1,10 @@
 import Station, { IStation } from '../models/station';
-import { CreateQuery } from 'mongoose';
 import axios from 'axios';
+import * as moment from "moment";
 
-// async function CreateOrUpdate({
-//     email,
-//     firstName,
-//     lastName,
-//     gender,
-//     address
-// }: CreateQuery<IStation>): Promise<IStation> {
-//     return await Station.createOrUpdate({
-//         email,
-//         gender,
-//         firstName,
-//         lastName,
-//         address
-//     })
-// }
 
-async function BulkInsert(data: any[]) {
+async function BulkInsert(data: any[], at: moment.Moment) {
+    data = data.map(station => ({...station, at}))
     return await Station.insertMany(data)
 }
 
@@ -31,8 +17,15 @@ async function GetFromIndego() {
     }
 }
 
+async function Get(query: {at: Date, kioskId?: string}) {
+    if (query.kioskId) {
+        return await Station.find({at: query.at, "properties.id": parseInt(query.kioskId)})
+    }
+    return await Station.find(query)
+}
+
 export default {
-    // CreateOrUpdate,
     BulkInsert,
-    GetFromIndego
+    GetFromIndego,
+    Get
 };
