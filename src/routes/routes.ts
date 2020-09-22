@@ -66,6 +66,10 @@ router.get('/stations/:kioskId', authorize, async (req, res) => {
 router.use('/api-docs', swaggerUi.serve);
 router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
+router.get("/", (req, res) => {
+    res.send("API is working properly");
+});
+
 router.get('*', (req, res) => {
     res.status(404).send("Not Found!")
 });
