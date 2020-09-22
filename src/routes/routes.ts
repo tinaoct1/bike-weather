@@ -57,7 +57,7 @@ router.get('/stations/:kioskId', authorize, async (req, res) => {
             return res.status(404).send("Snapshot not found for requested time and kiosk")
         }
 
-        res.send({at, station: station[0], weather: weather[0]})
+        res.send({at, stations: station, weather: weather[0]})
     } catch (e: any) {
         return res.status(500).send("Something went wrong")
     }

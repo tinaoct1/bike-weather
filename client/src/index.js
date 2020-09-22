@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import './styles.css';
-import {}
-
+const API_HOST = process.env.APP_ENV === "PRODUCTION" ? "https://bike-weather.herokuapp.com/api/v1":
+"http://localhost:3000/api/v1"
 function App() {
 	const [stations, setStations] = useState(null);
 	const [at, setAt] = useState(null);
 	const [kioskId, setKioskId] = useState(null);
 	const fetchData = async () => {
-		const url
+		const url =`${API_HOST}/stations${kioskId ? "/"+kioskId + "?": "?"}at=${at}`
 		const response = await axios.get(
-			`http://localhost:3000/api/v1/stations?at=${at}`,
+			url,
 			{
 				headers: {
 					"api-token": "dev-123",
@@ -27,6 +27,9 @@ function App() {
 	const setTime = (a) => {
 		setAt(a)
 	}
+	const setKiosk = (a) => {
+		setKioskId(a)
+	}
 	
 	
 	
@@ -36,10 +39,15 @@ function App() {
 	
 	<div>
 	
-		<div>
+		<div >
 	<label>
 	Time:
-<input onChange={event => setTime(event.target.value)} />
+	<input className="text-input" onChange={event => setTime(event.target.value)} />
+		<br />
+		<br />
+		
+		Kiosk:
+	<input className="text-input" onChange={event => setKiosk(event.target.value)} />
 
 		</label>
 		</div>
