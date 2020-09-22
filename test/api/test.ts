@@ -1,20 +1,8 @@
-//if the indego api returns no response then it should just return
-//if the indego api fails it should throw an error
-//if the indego api returns it should save to db
-
-//if the openweather api fails it should throw an error
-//if the openWEATHER API returns empty it should just retunr
-//if the openweather api returns data it should insert
-
-//the get api should return 404 if no kiosk id is found
-//the get api should return 404 if no data is found for specified date
-//the get api should return data if there is data for specified date
 import axios from 'axios';
 import app from '../../src/app';
 import request from "supertest";
 import StationController from '../../src/controllers/station';
 import WeatherController from '../../src/controllers/weather';
-import asyncFunction = is.asyncFunction;
 
 describe("When the indego-data-fetch-and-store-it-db is called", () => {
     it("should throw forbidden error if the api-token is not passed", async () => {

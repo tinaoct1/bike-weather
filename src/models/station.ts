@@ -7,12 +7,12 @@ export interface IStation extends Document {
 
 const StationSchema: Schema = new Schema({
     geometry: {
-        coordinates: { type: [Number], index: '2dsphere'}
+        coordinates: { type: [Number]}
     },
     properties: {
         id: { type: Number, required: true },
         name: { type: String, required: true },
-        coordinates: { type: [Number], index: '2dsphere'},
+        coordinates: { type: [Number]},
         totalDocks: { type: Number, required: true },
         docksAvailable: { type: Number, required: true },
         bikesAvailable: { type: Number, required: true },

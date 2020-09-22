@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import logger from "./utilities/logger";
-import { DB } from "./utilities/secrets";
+import logger from './utilities/logger';
+import { DB } from './utilities/secrets';
 
 // Build the connection string
 const dbURI = `mongodb+srv://${DB.USER}:${encodeURIComponent(DB.PASSWORD)}@${DB.HOST}/${
@@ -8,16 +8,16 @@ const dbURI = `mongodb+srv://${DB.USER}:${encodeURIComponent(DB.PASSWORD)}@${DB.
     }`;
 
 const options = {
-    useNewUrlParser   : true,
-    useCreateIndex    : true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify  : false,
-    autoIndex         : true,
-    poolSize          : 10, // Maintain up to 10 socket connections
+    useFindAndModify: false,
+    autoIndex: true,
+    poolSize: 10, // Maintain up to 10 socket connections
     // If not connected, return errors immediately rather than waiting for reconnect
-    bufferMaxEntries  : 0,
-    connectTimeoutMS  : 10000, // Give up initial connection after 10 seconds
-    socketTimeoutMS   : 45000, // Close sockets after 45 seconds of inactivity
+    bufferMaxEntries: 0,
+    connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
+    socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
 };
 
 logger.debug(dbURI);
@@ -55,4 +55,4 @@ process.on('SIGINT', () => {
         logger.info('Mongoose default connection disconnected through app termination');
         process.exit(0);
     });
-})
+});
