@@ -22,3 +22,7 @@ Backend:
 - Add data validation for function inputs parameters
 - Improve error logging 
 - Add Frontend to same app
+
+## Separate frontend app
+https://bike-weather-fe.herokuapp.com/
+https://github.com/tinaoct1/bike-weather-frontend
