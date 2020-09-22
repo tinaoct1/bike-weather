@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import './styles.css';
+import {}
 
 function App() {
 	const [stations, setStations] = useState(null);
-	
+	const [at, setAt] = useState(null);
+	const [kioskId, setKioskId] = useState(null);
 	const fetchData = async () => {
+		const url
 		const response = await axios.get(
-			'http://localhost:3000/api/v1/stations?at=2020-09-21T07:00:00',
+			`http://localhost:3000/api/v1/stations?at=${at}`,
 			{
 				headers: {
 					"api-token": "dev-123",
@@ -21,17 +24,23 @@ function App() {
 		setStations(response.data);
 	};
 	
+	const setTime = (a) => {
+		setAt(a)
+	}
+	
+	
+	
 	return (
 		<div className="App">
 		<h1>Bikes Availability</h1>
 	
 	<div>
 	
-	<form>
 		<div>
 	<label>
 	Time:
-<input type="text" id="at" />
+<input onChange={event => setTime(event.target.value)} />
+
 		</label>
 		</div>
 		
@@ -40,7 +49,6 @@ function App() {
 		<button className="fetch-button" onClick={fetchData}>
 		Fetch Data
 	</button>
-	</form>
 		
 	<br />
 	</div>
