@@ -112,7 +112,7 @@ describe("when the /stations/:kioskId api is called", () => {
 
         expect(res.statusCode).toEqual(200)
         expect(res.body).toHaveProperty('at')
-        expect(res.body).toHaveProperty('station')
+        expect(res.body).toHaveProperty('stations')
         expect(res.body).toHaveProperty('weather')
     })
 
