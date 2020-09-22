@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import moment from 'moment';
 import './styles.css';
 
 function App() {
-	const [stations, setBooks] = useState(null);
+	const [stations, setStations] = useState(null);
 	
 	const fetchData = async () => {
 		const response = await axios.get(
@@ -17,7 +18,7 @@ function App() {
 			}
 		);
 		
-		setBooks(response.data.stations);
+		setStations(response.data);
 	};
 	
 	return (
@@ -25,19 +26,31 @@ function App() {
 		<h1>Bikes Availability</h1>
 	
 	<div>
-	<button className="fetch-button" onClick={fetchData}>
+	
+	<form>
+		<div>
+	<label>
+	Time:
+<input type="text" id="at" />
+		</label>
+		</div>
+		
+		<br />
+		
+		<button className="fetch-button" onClick={fetchData}>
 		Fetch Data
 	</button>
+	</form>
+		
 	<br />
 	</div>
 	
 	{/* Display data from API */}
+	<div className="at"> {stations && moment(stations.at).format('LLL')}</div>
+	<div className="weather"> {stations && stations.weather.weather[0].description}</div>
 	<div className="stations">
 		{stations &&
-		stations.map((station, index) => {
-			const cleanedDate = new Date(station.released).toDateString();
-			// const authors = book.authors.join(', ');
-			
+		stations.stations.map((station, index) => {
 			return (
 				<div className="station" key={index}>
 				<h3>Station {index + 1}</h3>

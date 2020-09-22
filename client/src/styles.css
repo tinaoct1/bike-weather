@@ -26,14 +26,14 @@
     font-size: 1em;
     border-radius: 5px;
     cursor: pointer;
-    background-color: rgb(54, 202, 165);
+    background-color: rgb(85, 202, 107);
     border: none;
     color: rgb(15, 66, 54);
     transition: all 0.5s;
 }
 
 .fetch-button:hover {
-    background-color: rgb(40, 209, 209);
+    background-color: rgb(89, 209, 77);
 }
 
 .stations {
@@ -50,7 +50,7 @@
     width: 47%;
     color: #333;
     flex-basis: width;
-    background-color: rgb(165, 230, 230);
+    background-color: rgb(183, 230, 195);
 }
 
 .station h3 {
